@@ -39,10 +39,6 @@ public class MyPongPanel extends JPanel {
             b.y += b.dy;
 
             // hit vertical wall 
-            if( b.x+b.diameter >= getWidth() || b.x < 0)
-            {
-                b.dx = -1*b.dx;
-            }
 
             // hit top or bottom
             if( b.y+b.diameter >= getHeight() || b.y < 0 )
@@ -50,8 +46,19 @@ public class MyPongPanel extends JPanel {
                 b.dy = -1*b.dy;
             }
 
-            //check for collision with paddles             
-            // TODO: CODE HERE
+            //check for collision with paddles
+            // I'm not sure what's happening with my code but the ball switches direction when it hits some area adjacent to
+            // the left paddle and I can't find what's causing it. The balls also skids along the right paddle instead of bouncing
+            boolean rightEdge = b.x + b.diameter >= getWidth();
+            boolean inRightX = b.x + b.diameter >= two.x && b.x <= two.x + two.width;
+            boolean inRightY = b.y + b.diameter >= two.y && b.y <= two.y + two.length;
+            boolean inLeftX = b.x >= one.x && b.x <= one.x + one.width;
+            boolean inLeftY = b.y >= one.y && b.y <= one.y + one.length;
+
+            if((rightEdge || b.x < 0) || (inRightX && inRightY || inLeftY && inLeftX)) 
+            {
+                b.dx = -1*b.dx;
+            }
         
             repaint();
 
